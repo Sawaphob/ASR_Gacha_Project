@@ -360,6 +360,11 @@ export default function(window){
 		this.toString = function() {
 			return list.join('. ');
 		}
+        
+        this.clear = function() {
+            list = [];
+            index = 0;
+        }
 	}
 
 	window.Dictate = Dictate;

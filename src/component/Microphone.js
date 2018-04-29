@@ -58,8 +58,10 @@ export default class Microphone extends Component {
             onResults : function(hypos) {
                 // TODO: demo the case where there are more results
                 transcription.add(hypos[0].transcript, true);
-                
-                console.log(transcription.toString())
+                for(let hypo of hypos) {
+                    console.log("Hypo data ",hypo.transcript.toString(),hypo.likelihood);
+                }
+                console.log("Best transcript: "+transcription.toString())
                 
                 //__updateTranscript();
                 // diff() is defined only in diff.html
@@ -85,13 +87,12 @@ export default class Microphone extends Component {
     }
     
     startRecord() {
-        console.log(this.state.dictate);
+        this.state.transcription.clear();
         this.state.dictate.startListening();
     }
     
     stopRecord() {
         this.state.dictate.stopListening();
-        console.log(this.state.transcription);
     }
     
     render(){
