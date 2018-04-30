@@ -17,6 +17,9 @@ export default class Start extends Component{
                     <Microphone worker={myWorker} />
                 </Row>
                 <Row>
+                    <Microphone worker={myWorker} />
+                </Row>
+                <Row>
                     <Col xs={1}>
                         <Token />
                     </Col>
@@ -36,4 +39,6 @@ export default class Start extends Component{
             </div>
         )
     }
+    
+    
 }
