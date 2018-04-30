@@ -29,8 +29,13 @@ export default class Collection extends Component {
                 {this.state.Collection.map((item, index) => (
                     <Row>
                         {item.map((item, index) =>(
+<<<<<<< HEAD
                             <Col xs={2} style={{width:"300px"}}>
                                 {item == 1? <img src="./img/mashiro.jpg" width="300px"/>:<img src="./img/questionMask.png" width="300px"/>}
+=======
+                            <Col xs={2}>
+                                {item === 1? <img src="./img/mashiro.jpg" width="200px"/>:<img src="./img/questionMask.png" width="200px"/>}
+>>>>>>> 8d5d2f8a58c297f786e1d1c9cd040b008b394c96
                             </Col>
                         ))}
                     </Row>
