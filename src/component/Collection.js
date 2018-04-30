@@ -20,7 +20,7 @@ export default class Collection extends Component {
                     <Row>
                         {item.map((item, index) =>(
                             <Col xs={2}>
-                                {item == 1? <img src="./img/mashiro.jpg" width="200px"/>:<img src="./img/questionMask.png" width="200px"/>}
+                                {item === 1? <img src="./img/mashiro.jpg" width="200px"/>:<img src="./img/questionMask.png" width="200px"/>}
                             </Col>
                         ))}
                     </Row>
