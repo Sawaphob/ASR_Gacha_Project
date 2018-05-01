@@ -9,7 +9,7 @@ import myWorker from "../lib/recorderWorker.js"
 //let myWorker = require("../lib/recorderWorker.js");
 
 const gachaResolve = {
-    "0" : "atiwaong_asr.jpg",
+    "0" : "atiwong_asr.jpg",
     "1" : "atiwong1_n.jpg",
     "2" : "atiwong1_r.jpg",
     "3" : "atiwong1_sr.jpg",
@@ -45,18 +45,33 @@ export default class Start extends Component{
     constructor(props){
         super(props)
         this.state = {
-            money:1000,
-            token:1000,
-            gacha: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            money: 1000,
+            token: 1000,
+            command: "",
+            collectPage: false,
+            gachaList: [[1,1,1,1],
+                        [1,1,1,1],
+                        [1,1,1,0],
+                        [0,0,1,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [1]]
         }
+        this.handleCommand = this.handleCommand.bind(this)
+    }
+
+    handleCommand(text){
+        this.setState({command:text})
     }
 
     render(){
+        console.log(this.state.command)
         return(
             <div class="container">
                 <div>
                 <Row>
-                    <Microphone worker={myWorker} />
+                    <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                 </Row>
                 <Row>
                     <Col xs={1}>
@@ -70,8 +85,8 @@ export default class Start extends Component{
                  <div style={{position: 'static'}}>
                     <Video/>
                 </div>
-                <div style={{display:"flex"}}>
-                    <Collection />
+                <div style={{display:"flex"}} >
+                    <Collection gachaList={this.state.gachaList}/>
                        
                 </div>        
             </div>

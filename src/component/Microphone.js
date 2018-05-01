@@ -55,14 +55,15 @@ export default class Microphone extends Component {
             }.bind(this),
             onResults : function(hypos) {
                 // TODO: demo the case where there are more results
-                transcription.add(hypos[0].transcript, true);
+                transcription.add(hypos[0].transcript, true)
                 for(let hypo of hypos) {
-                    console.log("Hypo data ",hypo.transcript.toString(),hypo.likelihood);
+                    console.log("Hypo data ",hypo.transcript.toString(),hypo.likelihood)
                 }
                 console.log("Best transcript: "+transcription.toString())
                 
-                this.state.transcript = transcription.toString();
-                this.setState({transcript: transcription.toString()});
+                this.state.transcript = transcription.toString()
+                this.setState({transcript: transcription.toString()})
+                this.props.handleCommand(transcription.toString())
                 //__updateTranscript();
                 // diff() is defined only in diff.html
                 /*if (typeof(diff) == "function") {
