@@ -14,11 +14,8 @@ export default class Start extends Component{
 
     render(){
         return(
-            <div>
+            <div class="container">
                 <div>
-                <Row>
-                    <Microphone worker={myWorker} />
-                </Row>
                 <Row>
                     <Microphone worker={myWorker} />
                 </Row>
