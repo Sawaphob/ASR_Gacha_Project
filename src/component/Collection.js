@@ -30,8 +30,8 @@ export default class Collection extends Component {
                 {this.state.Collection.map((item, index) => (
                     <Row>
                         {item.map((item, index) =>(
-                            <Col xs={2} style={{width:"300px"}}>
-                                {item == 1? <img src="./img/mashiro.jpg" width="300px"/>:<img src="./img/questionMask.png" width="300px"/>}
+                            <Col sm={3}>
+                                {item == 1? <img src="./img/mashiro.jpg" className="img-fluid"/>:<img src="./img/questionMask.png" className="img-fluid"/>}
                             </Col>
                         ))}
                     </Row>

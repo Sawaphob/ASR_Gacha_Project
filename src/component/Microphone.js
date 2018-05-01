@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import {FormControl,InputGroup,Button} from 'react-bootstrap'
 import Dictate from  '../lib/dictate.js'
 
 export default class Microphone extends Component {
     constructor(props){
         super(props)
         this.state = {
-            token: 10
+            recording:false
         }
     }
     
@@ -21,27 +22,21 @@ export default class Microphone extends Component {
         var worker = this.props.worker;
         console.log("WORKER",worker);
         var dictate = new this.state.window.Dictate({
-            server : "ws://localhost:8080/client/ws/speech",
-            serverStatus : "ws://localhost:8080/client/ws/status",
+            server : "ws://192.168.38.10:8080/client/ws/speech",
+            serverStatus : "ws://192.168.38.10:8080/client/ws/status",
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
                 console.log("READY FOR SPEECH");
-                //__message("READY FOR SPEECH");
-                //__status("Kuulan ja transkribeerin...");
             },
             onEndOfSpeech : function() {
                 console.log("END FOR SPEECH");
-                //__message("END OF SPEECH");
-                //__status("Transkribeerin...");
             },
             onEndOfSession : function() {
                 console.log("END OF SESSION");
-                //__message("END OF SESSION");
-                //__status("");
             },
             onServerStatus : function(json) {
                 //__serverStatus(json.num_workers_available + ':' + json.num_requests_processed);
-                console.log(json.num_workers_available + ':' + json.num_requests_processed)
+                //console.log(json.num_workers_available + ':' + json.num_requests_processed)
                 /*if (json.num_workers_available == 0) {
                     $("#buttonStart").prop("disabled", true);
                     $("#serverStatusBar").addClass("highlight");
@@ -53,8 +48,11 @@ export default class Microphone extends Component {
             onPartialResults : function(hypos) {
                 // TODO: demo the case where there are more hypos
                 transcription.add(hypos[0].transcript, false);
+                console.log("Partial result ",hypos[0].transcript.toString());
+                
+                this.setState({transcript: transcription.toString()});
                 //__updateTranscript(tt.toString());
-            },
+            }.bind(this),
             onResults : function(hypos) {
                 // TODO: demo the case where there are more results
                 transcription.add(hypos[0].transcript, true);
@@ -63,12 +61,14 @@ export default class Microphone extends Component {
                 }
                 console.log("Best transcript: "+transcription.toString())
                 
+                this.state.transcript = transcription.toString();
+                this.setState({transcript: transcription.toString()});
                 //__updateTranscript();
                 // diff() is defined only in diff.html
                 /*if (typeof(diff) == "function") {
                     diff();
                 }*/
-            },
+            }.bind(this),
             onError : function(code, data) {
                 //__error(code, data);
                 //__status("Viga: " + code);
@@ -82,24 +82,33 @@ export default class Microphone extends Component {
         });
         this.state.dictate = dictate;
         this.state.dictate.init();
-        
-        console.log(this.state);
     }
     
     startRecord() {
         this.state.transcription.clear();
         this.state.dictate.startListening();
+        
+        this.setState({recording:true});
     }
     
     stopRecord() {
         this.state.dictate.stopListening();
+        this.setState({recording:false});
     }
     
     render(){
         return(
-            <div>
-                <button onClick={this.startRecord.bind(this)}>Start recording</button>
-                <button onClick={this.stopRecord.bind(this)}>Stop recording</button>
+            <div class="input-group my-3">
+                <FormControl
+                    type="text"
+                    value={this.state.transcript}
+                    placeholder="Enter text"
+                />
+                <div class="input-group-append">
+                    <Button onClick={this.state.recording?this.stopRecord.bind(this):this.startRecord.bind(this)} >
+                        {this.state.recording?'Stop':'Start'}
+                    </Button>
+                </div>
             </div>
         )
     }
