@@ -31,9 +31,9 @@ export default class Start extends Component{
                     </Col>
                 </Row>
                 </div>
-                {/* <div style={{position: 'static'}}>
+                <div style={{position: 'static'}}>
                     <Video/>
-                </div> */}
+                </div>
                 <div style={{display:"flex"}}>
                     <Collection />
                        
