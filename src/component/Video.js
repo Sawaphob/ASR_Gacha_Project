@@ -83,11 +83,13 @@ const Cardimg = styled.img`
         (props) =>{
             if(props.flip){
                 return `animation: ${Flip} 1.25s linear 2;`
+            }else if (props.scale){
+                return `animation: ${Scale} 1s 1s;`
             }else{
-                return `animation: ${Scale} 1.5s 2s;`
+                return null;
             }
         }
-        }
+    }
 `;
 
 const Crop = styled.div`
@@ -103,32 +105,49 @@ const Crop = styled.div`
     animation-fill-mode: forwards;
 `;
 
-//${Flip} 1.25s linear 4.5s 2
-//${Scale} 2s
-
 export default class Video extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            vid: true,
+            play : false,
+            vid: false,
             flip: false,
-            play : false
+            crop : false,
+            scale: false
         };
-    }
+        this.vidref = null;
 
-    gacha() {
-        this.setState({ vid: !this.state.vid });
-        this.setState({ flip: !this.state.flip });
+        this.startvid = element => {
+          this.vidref = element;
+        };
     }
 
     start(){
         this.setState({ play: !this.state.play });
+        this.setState({ vid: !this.state.vid });
+        if (this.vidref) this.vidref.play();
+    }
+
+    videoend() {
+        this.setState({ vid: !this.state.vid });
+        this.setState({ flip: !this.state.flip });
     }
 
     startscale(){
-        console.log("start scale")
-        if(this.state.flip){
+        if(this.state.flip && !this.state.crop && !this.state.scale){
             this.setState({ flip: !this.state.flip });
+            this.setState({ crop: !this.state.crop });
+        }else if (!this.state.flip && this.state.crop && !this.state.scale){
+            this.setState({ crop: !this.state.crop });
+            this.setState({ scale: !this.state.scale });
+        }
+        else if (!this.state.flip && !this.state.crop && this.state.scale){
+            console.log("set time out")
+            setTimeout(() => {
+                this.setState({ scale: !this.state.scale });
+                this.setState({ play: !this.state.play });
+            }, 2000);
+            
         }
         
     }
@@ -136,20 +155,25 @@ export default class Video extends Component {
     render() {
         if (!this.state.play){
             return(
-                <button onClick={this.start.bind(this)}> click me! </button>
+                <div>
+                    <button onClick={this.start.bind(this)}> click me! </button>
+                <Viddiv>
+                    <Gachaimg src="./img/banner.png"/>
+                </Viddiv>
+                </div>
             )
         }else{
             return (
             
                 <Viddiv>
-                    <Gachavid autoPlay muted onEnded={this.gacha.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'}>
+                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} ref={this.startvid}>
                         <source src="./video/rainbow.mp4" type="video/mp4" />
                     </Gachavid>
                     <Fadeimg src="./img/gacha_fade.png" />
                     <Gachaimg src="./img/gacha.png" />
-                    <Cardimg src="./img/ekapol1_n.jpg" flip={this.state.flip} visibility={this.state.vid ? 'hidden' : 'visible'}/>
+                    <Cardimg src="./img/ekapol1_n.jpg" flip={this.state.flip} scale={this.state.scale} visibility={this.state.vid ? 'hidden' : 'visible'}/>
                     <Crop onAnimationEnd={this.startscale.bind(this)}>
-                        <Cardimg src="./img/cardback.jpg"  flip={this.state.flip} visibility={this.state.vid ? 'hidden': 'visible'}/>
+                        <Cardimg src="./img/cardback.jpg"  flip={this.state.flip} scale={this.state.scale} visibility={this.state.vid ? 'hidden': 'visible'}/>
                     </Crop>
                 </Viddiv>
             )
