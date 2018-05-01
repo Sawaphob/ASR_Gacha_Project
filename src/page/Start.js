@@ -31,6 +31,8 @@ export default class Start extends Component{
                 <div style={{position: 'static'}}>
                     <Video/>
                 </div>
+                <br />
+                <br />
                 <div style={{display:"flex"}}>
                     <Collection />
                        
