@@ -22,8 +22,8 @@ export default class Microphone extends Component {
         var worker = this.props.worker;
         console.log("WORKER",worker);
         var dictate = new this.state.window.Dictate({
-            server : "ws://localhost:8080/client/ws/speech",
-            serverStatus : "ws://localhost:8080/client/ws/status",
+            server : "ws://192.168.38.10:8080/client/ws/speech",
+            serverStatus : "ws://192.168.38.10:8080/client/ws/status",
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
                 console.log("READY FOR SPEECH");
@@ -48,22 +48,38 @@ export default class Microphone extends Component {
             onPartialResults : function(hypos) {
                 // TODO: demo the case where there are more hypos
                 transcription.add(hypos[0].transcript, false);
-                console.log("Partial result ",hypos[0].transcript.toString());
+                let transcript = hypos[0].transcript.toString();
+                console.log("Partial result ",transcript);
+                if(transcript.indexOf("โกวาจี") != -1) {
+                    this.setState({transcript: transcript.substr(transcript.indexOf("โกวาจี"))});
+                }
+                else {
+                    this.setState({transcript: ""});
+                }
                 
-                this.setState({transcript: transcription.toString()});
                 //__updateTranscript(tt.toString());
             }.bind(this),
             onResults : function(hypos) {
                 // TODO: demo the case where there are more results
                 transcription.add(hypos[0].transcript, true)
-                for(let hypo of hypos) {
+                /*for(let hypo of hypos) {
                     console.log("Hypo data ",hypo.transcript.toString(),hypo.likelihood)
+                }*/
+                console.log("Result: best transcript "+transcription.toString())
+                let transcript = transcription.toString();
+                if(transcript.indexOf("โกวาจี") != -1) {
+                    // valid command
+                    let cmd = transcript.substr(transcript.indexOf("โกวาจี"));
+                    this.setState({transcript: cmd});
+                    this.props.handleCommand(cmd);
+                    console.log("CMD",cmd);
                 }
-                console.log("Best transcript: "+transcription.toString())
+                else {
+                    this.setState({transcript: ""});
+                }
+                transcription.clear();
+                //this.setState({transcript: transcription.toString()})
                 
-                this.state.transcript = transcription.toString()
-                this.setState({transcript: transcription.toString()})
-                this.props.handleCommand(transcription.toString())
                 //__updateTranscript();
                 // diff() is defined only in diff.html
                 /*if (typeof(diff) == "function") {
