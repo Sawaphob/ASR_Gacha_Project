@@ -8,7 +8,18 @@ import {Col,Row} from 'react-bootstrap'
 import myWorker from "../lib/recorderWorker.js"
 //let myWorker = require("../lib/recorderWorker.js");
 
+
+
 export default class Start extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            money:1000,
+            token:1000,
+            gacha: [0,0,0,0,0,0,0,0,0]
+        }
+    }
 
     render(){
         return(
@@ -26,17 +37,9 @@ export default class Start extends Component{
                     </Col>
                 </Row>
                 </div>
-<<<<<<< HEAD
-                <div style={{position: 'static'}}>
-                    <Video/>
-                </div>
-                <br />
-                <br />
-=======
                  <div style={{position: 'static'}}>
                     <Video/>
                 </div>
->>>>>>> 485e3e7579195f90a557faee30b4a6600ff7bf03
                 <div style={{display:"flex"}}>
                     <Collection />
                        
