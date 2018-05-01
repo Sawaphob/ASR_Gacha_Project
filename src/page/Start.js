@@ -10,8 +10,6 @@ import myWorker from "../lib/recorderWorker.js"
 
 export default class Start extends Component{
 
-    
-
     render(){
         return(
             <div class="container">
@@ -28,11 +26,17 @@ export default class Start extends Component{
                     </Col>
                 </Row>
                 </div>
+<<<<<<< HEAD
                 <div style={{position: 'static'}}>
                     <Video/>
                 </div>
                 <br />
                 <br />
+=======
+                 <div style={{position: 'static'}}>
+                    <Video/>
+                </div>
+>>>>>>> 485e3e7579195f90a557faee30b4a6600ff7bf03
                 <div style={{display:"flex"}}>
                     <Collection />
                        
