@@ -58,7 +58,12 @@ export default class Start extends Component{
                         [0,0,0,0],
                         [1]]
         }
+        this.child = React.createRef()
         this.handleCommand = this.handleCommand.bind(this)
+        this.openCollection = this.openCollection.bind(this)
+        this.closeCollection = this.closeCollection.bind(this)
+        this.addMoney = this.addMoney.bind(this)
+        this.addToken = this.addToken.bind(this)
     }
 
     handleCommand(text){
@@ -73,27 +78,30 @@ export default class Start extends Component{
         this.setState({collectPage: false})
     }
 
-    
+    addMoney(addedMoney){
+        this.setState({money:this.state.money + addedMoney})
+    }
+
+    addToken(addedToken){
+        this.setState({token:this.state.token + addedToken})
+    }
+
+
 
     render(){
-        console.log(this.state.command)
         return(
             <div class="container">
                 <div>
-                <Row>
-                    <Microphone worker={myWorker} handleCommand={this.handleCommand} />
-                </Row>
-                <Row>
-                    <Col xs={1}>
-                        <Token />
-                    </Col>
-                    <Col xs={1}>
-                        <Money />
-                    </Col>
-                </Row>
+                    <div>
+                        <Microphone worker={myWorker} handleCommand={this.handleCommand} />
+                    </div>
+                    <div style={{display:"flex", align:"center"}}>
+                        <Token token={this.state.token}/>
+                        <Money money={this.state.money}/>
+                    </div>
                 </div>
                  <div style={{position: 'static'}}>
-                    <Video/>
+                    <Video ref={this.child}/>
                 </div>
                 <div style={{display:"flex"}} >
                     <Collection gachaList={this.state.gachaList}/>

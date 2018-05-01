@@ -52,7 +52,6 @@ export default class Collection extends Component {
     }
 
     render(){
-        console.log(this.props.gachaList)
         return(
             <CollectionBox>
                 {this.props.gachaList.map((item1, index1) => (

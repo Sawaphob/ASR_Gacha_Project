@@ -12,7 +12,7 @@ export default class Money extends Component {
     render(){
         return(
             <div>
-                เงินจ้าาาาาา {this.state.money}
+                เงินจ้าาาาาา {this.props.money}
             </div>
         )
     }
