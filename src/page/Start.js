@@ -65,6 +65,16 @@ export default class Start extends Component{
         this.setState({command:text})
     }
 
+    openCollection(){
+        this.setState({collectPage: true})
+    }
+
+    closeCollection(){
+        this.setState({collectPage: false})
+    }
+
+    
+
     render(){
         console.log(this.state.command)
         return(
