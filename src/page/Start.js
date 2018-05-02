@@ -10,30 +10,35 @@ import myWorker from "../lib/recorderWorker.js"
 import gachaResolve from '../data/gachaResolve.json'
 
 var list = [
-    {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
-    {sentence:"เปิด สิบ", action: 'randomGacha'},
-    {sentence:"เปิด หา อาจารย์ เอกพล", action: 'randomGacha'},
-    {sentence:"เปิด หา อาจารย์ อรรถสิทธิ์", action: 'randomGacha'},
-    {sentence:"เปิด หา อาจารย์ อติวงศ์", action: 'randomGacha'},
-    {sentence:"เติม เงิน หนึ่ง บาท", action: 'addMoney', params: 1},
+    {sentence:"เปิด หนึ่ง", action: 'randomGacha', params: 1},
+    {sentence:"เปิด สิบ", action: 'randomGacha', params: 10},
+    {sentence:"เปิด เอา อาจารย์ เอกพล", action: 'randomGacha?', params: 1},
+    {sentence:"เปิด เอา อาจารย์ อรรถสิทธิ์", action: 'randomGacha?', params: 1},
+    {sentence:"เปิด เอา อาจารย์ อติวงศ์", action: 'randomGacha?', params: 1},
     {sentence:"เติม เงิน สิบ บาท", action: 'addMoney', params: 10},
     {sentence:"เติม เงิน ร้อย บาท", action: 'addMoney', params: 100},
     {sentence:"เติม เงิน พัน บาท", action: 'addMoney', params: 1000},
-    {sentence:"เติม เพชร หนึ่ง", action: 'addToken', params: 1},
     {sentence:"เติม เพชร สิบ", action: 'addToken', params: 10},
     {sentence:"เติม เพชร ร้อย", action: 'addToken', params: 100},
     {sentence:"เติม เพชร พัน", action: 'addToken', params: 1000},
     {sentence:"แสดง คอลเลคชั่น", action: 'openCollection'},
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
-    {sentence:"โชว์ กาชา", action: 'closeCollection'}
+    {sentence:"โชว์ กาชา", action: 'closeCollection'},
+    {sentence:"โกง คอลเลคชั่น", action: 'cheatCollection'},
+    {sentence:"โกง เอา อาจารย์ เอกพล", action: 'cheatProfessor', params: 'ekapol'},
+    {sentence:"โกง เอา อาจารย์ อรรถสิทธิ์", action: 'cheatProfessor', params: 'athasit'},
+    {sentence:"โกง เอา อาจารย์ อติวงศ์", action: 'cheatProfessor', params: 'atiwong'},
+    {sentence:"โกง เอา อา", action: 'cheatRarity', params: 'R'},
+    {sentence:"โกง เอา เอส อา", action: 'cheatRarity', params: 'SR'},
+    {sentence:"โกง เอา เอ เอส อา", action: 'cheatRarity', params: 'ASR'}
 ]
 
 var options = {
     shouldSort: true,
     tokenize: false,
     includeScore: true,
-    threshold: 0.3,
+    threshold: 0.6,
     location: 0,
     distance: 100,
     maxPatternLength: 64,
@@ -76,11 +81,14 @@ export default class Start extends Component{
         console.log("Searching "+text);
         let cmd = commandSearch.search(text)[0];
         if(cmd !== undefined) {
-            console.log("I think it is ",cmd);
-            if(cmd.score <= 0.2) {
+            console.log("I think it is ",cmd.item.sentence);
+            if(cmd.score == 0) {
+                console.log("I'm fucking sure");
+            }
+            else if(cmd.score <= 0.2) {
                 console.log("I'm pretty sure");
             }
-            else if(cmd.score <= 0.4) {
+            else if(cmd.score <= 0.5) {
                 console.log("I'm not quite sure");
             }
             else {
