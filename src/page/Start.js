@@ -149,7 +149,7 @@ export default class Start extends Component{
             for(let j = 0; j < gachaRateList.length ; j++){
                 if(gachaRateList[j] > roll){
                     let tmp = this.state.gachaList
-                    tmp[parseInt(gachaResolve[j]/4)][parseInt(gachaResolve[j]%4)] = 1
+                    tmp[parseInt(j/4)][parseInt(j%4)] = 1
                     this.setState({gachaList:tmp})
                     resultList.push(j);
                     break;
