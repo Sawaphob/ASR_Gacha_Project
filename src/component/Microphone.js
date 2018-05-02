@@ -26,8 +26,8 @@ export default class Microphone extends Component {
         var worker = this.props.worker;
         
         var dictate = new this.state.window.Dictate({
-            server : "ws://192.168.38.10:8080/client/ws/speech",
-            serverStatus : "ws://192.168.38.10:8080/client/ws/status",
+            server : "ws://localhost:8080/client/ws/speech",
+            serverStatus : "ws://localhost:8080/client/ws/status",
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
                 console.log("READY FOR SPEECH");
