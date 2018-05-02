@@ -12,7 +12,7 @@ export default class Money extends Component {
     render(){
         return(
             <div>
-                เงินจ้าาาาาา {this.props.money}
+                {this.props.money}  <img src="./banknotes.png" width="40px"/>
             </div>
         )
     }
