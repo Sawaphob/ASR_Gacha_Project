@@ -172,8 +172,9 @@ export default class Start extends Component{
         var ekapolRateList =  [50,100,150,200,250,300,630,680,730,780,830,880,935,990,1045,1078,1100];
         this.setState({token:this.state.token - 3})
         if(card == "atiwong") {
+            this.setState({token:this.state.token - 3})
             var roll = Math.floor(Math.random()*600);
-            for(let i=0; i<atiwongRateList.length; i++){
+            for(var i=0; i<atiwongRateList.length; i++){
                 if(atiwongRateList[i] > roll){
                     this.child.current.randomGacha([atiwongCardList[i]]);
                     break;
@@ -181,8 +182,9 @@ export default class Start extends Component{
             }
         }
         else if(card == "ekapol"){
+            this.setState({token:this.state.token - 3})
             var roll  = Math.floor(Math.random()*1100);
-            for(let i=0; i<ekapolRateList.length; i++){
+            for(var i=0; i<ekapolRateList.length; i++){
                 if(ekapolRateList[i] > roll){
                     this.child.current.randomGacha([ekapolCardList[i]]);
                     break;
