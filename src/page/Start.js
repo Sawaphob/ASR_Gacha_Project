@@ -156,7 +156,7 @@ export default class Start extends Component{
                 this.setState({gachaList:tmp})
 
             }
-        }else if(name === "atthasit"){
+        }else if(name === "athasit"){
             let tmp = this.state.gachaList
             tmp[26/4][26%4] = 1
             this.setState({gachaList:tmp})
