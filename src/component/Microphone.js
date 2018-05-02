@@ -83,7 +83,7 @@ export default class Microphone extends Component {
                     this.setState({transcript: cmd});
                     console.log("CMD",cmd);
                     this.props.handleCommand(cmd);
-                    
+                    this.stopRecord();
                 }
                 else {
                     this.setState({transcript: ""});
