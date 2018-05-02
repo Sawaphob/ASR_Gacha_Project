@@ -4,10 +4,11 @@ import Token from '../component/Token'
 import Collection from '../component/Collection'
 import Video from '../component/Video'
 import Microphone from '../component/Microphone'
-import {Col,Row} from 'react-bootstrap'
 import myWorker from "../lib/recorderWorker.js"
+import styled, { keyframes } from 'styled-components'
 //let myWorker = require("../lib/recorderWorker.js");
 import gachaResolve from '../data/gachaResolve.json'
+
 
 var list = [
     {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
@@ -45,6 +46,13 @@ var options = {
 
 var commandSearch = new (require('fuse.js'))(list, options); // "list" is the item array
 
+const UserUI = styled.div`
+    display : flex;
+    justify-content : center;
+    border : solid 2px black;
+    border-radius : 10px;
+` 
+
 export default class Start extends Component{
 
     constructor(props){
@@ -54,7 +62,7 @@ export default class Start extends Component{
             money: 1000,
             token: 1000,
             command: "",
-            collectPage: false,
+            collectPage: true,
             gachaList: [[1,1,1,1],
                         [1,1,1,1],
                         [1,1,1,0],
@@ -70,6 +78,7 @@ export default class Start extends Component{
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
         this.randomGacha = this.randomGacha.bind(this)
+        this.cheatGacha = this.cheatGacha.bind(this)
     }
 
     handleCommand(text){
@@ -113,7 +122,44 @@ export default class Start extends Component{
     }
 
     randomGacha(){
-        this.child.current.randomGacha([1,2])
+        this.child.current.start()
+    }
+
+    cheatProfessor(name){
+        if(name === "ekapol"){
+            const ekapol_list = [3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23]
+            for(var i in ekapol_list){
+                console.log(i)
+                let tmp = this.state.gachaList
+                tmp[parseInt(ekapol_list[i]/4)][parseInt(ekapol_list[i]%4)] = 1
+                this.setState({gachaList:tmp})
+    
+            }
+        }else if(name === "atiwong"){
+            const atiwong_list = [0, 1, 2, 9, 10, 11, 18, 19, 20, 24, 25]
+            for(var i in atiwong_list){
+                let tmp = this.state.gachaList
+                tmp[parseInt(atiwong_list[i]/4)][parseInt(atiwong_list[i]%4)] = 1
+                this.setState({gachaList:tmp})
+
+            }
+        }else if(name === "atthasit"){
+            let tmp = this.state.gachaList
+            tmp[26/4][26%4] = 1
+            this.setState({gachaList:tmp})
+
+        }
+    }
+
+    cheatGacha(){
+        this.setState({gachaList:  [[1,1,1,1],
+                                    [1,1,1,1],
+                                    [1,1,1,1],
+                                    [1,1,1,1],
+                                    [1,1,1,1],
+                                    [1,1,1,1],
+                                    [1,1,1,1],
+                                    [1]]})
     }
 
     render(){
@@ -124,12 +170,13 @@ export default class Start extends Component{
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
-                    <div style={{display:"flex", align:"center"}}>
-                        <Token token={this.state.token}/>
-                        <Money money={this.state.money}/>
-                    </div>
+                    <UserUI>
+                        <Token token={this.state.token}/><div style={{width:"200px"}}/><Money money={this.state.money}/>
+                    </UserUI>
                 </div>
-                {this.state.collectPage == true ?
+                <br />
+                {
+                    this.state.collectPage == true ?
                     
                     <div style={{display:"flex"}} >
                         <Collection gachaList={this.state.gachaList}/>
