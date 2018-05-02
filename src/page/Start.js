@@ -133,6 +133,32 @@ export default class Start extends Component{
         this.child.current.start()
     }
 
+    cheatProfessor(name){
+        if(name === "ekapol"){
+            const ekapol_list = [3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23]
+            for(var i in ekapol_list){
+                console.log(i)
+                let tmp = this.state.gachaList
+                tmp[parseInt(ekapol_list[i]/4)][parseInt(ekapol_list[i]%4)] = 1
+                this.setState({gachaList:tmp})
+    
+            }
+        }else if(name === "atiwong"){
+            const atiwong_list = [0, 1, 2, 9, 10, 11, 18, 19, 20, 24, 25]
+            for(var i in atiwong_list){
+                let tmp = this.state.gachaList
+                tmp[parseInt(atiwong_list[i]/4)][parseInt(atiwong_list[i]%4)] = 1
+                this.setState({gachaList:tmp})
+
+            }
+        }else if(name === "atthasit"){
+            let tmp = this.state.gachaList
+            tmp[26/4][26%4] = 1
+            this.setState({gachaList:tmp})
+
+        }
+    }
+
     cheatGacha(){
         this.setState({gachaList:  [[1,1,1,1],
                                     [1,1,1,1],
@@ -148,7 +174,7 @@ export default class Start extends Component{
         return(
             <div class="container">
                 <div>
-                    {/* <button onClick={this.cheatGacha}>AAAAAA</button> */}
+                    {/* <button onClick={()=>{this.cheatProfessor("atiwong")}}>AAAAAA</button> */}
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
