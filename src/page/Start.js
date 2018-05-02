@@ -12,8 +12,8 @@ import gachaResolve from '../data/gachaResolve.json'
 const exchangeRate = {1: 35, 10: 200, 100: 1600, 1000: 13000}
 
 var list = [
-    {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
-    {sentence:"เปิด สิบ", action: 'randomGacha'},
+    {sentence:"เปิด หนึ่ง", action: 'randomGachaWithNumber', params: 1},
+    {sentence:"เปิด สิบ", action: 'randomGachaWithNumber', params: 10},
     {sentence:"เปิด หา อาจารย์ เอกพล", action: 'randomGacha'},
     {sentence:"เปิด หา อาจารย์ อรรถสิทธิ์", action: 'randomGacha'},
     {sentence:"เปิด หา อาจารย์ อติวงศ์", action: 'randomGacha'},
@@ -28,7 +28,9 @@ var list = [
     {sentence:"แสดง คอลเลคชั่น", action: 'openCollection'},
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
-    {sentence:"โชว์ กาชา", action: 'closeCollection'}
+    {sentence:"โชว์ กาชา", action: 'closeCollection'},
+    {sentence:"หยุด", action: 'skipGacha'},
+    {sentence:"ข้าม", action: 'skipGacha'}
 ]
 
 var options = {
@@ -80,6 +82,7 @@ export default class Start extends Component{
         this.addToken = this.addToken.bind(this)
         this.randomGachaWithNumber = this.randomGachaWithNumber.bind(this)
         this.cheatGacha = this.cheatGacha.bind(this)
+        this.skipGacha = this.skipGacha.bind(this)
     }
 
     handleCommand(text){
@@ -97,8 +100,11 @@ export default class Start extends Component{
                 console.log("I don't think it's correct ... I will ignore it");
                 return;
             }
-            this.setState({command:cmd.item.action});
-            this[cmd.item.action](cmd.item.params);
+            if(cmd.item.action == 'skipGacha' || !this.child.current.state.play)
+            {
+                this.setState({command:cmd.item.action});
+                this[cmd.item.action](cmd.item.params);
+            }
         }
         else {
             console.log("I can't even find a good match");
@@ -136,6 +142,7 @@ export default class Start extends Component{
         }
         console.log(resultList);
         console.log(this.child.current);
+        this.setState({token:this.state.token - number * 3})
         this.child.current.randomGacha(resultList)
     }
 
@@ -163,6 +170,18 @@ export default class Start extends Component{
             this.setState({gachaList:tmp})
 
         }
+    }
+
+    skipGacha(){
+        this.child.current.setState({
+            play : false,
+            vid: false,
+            flip: false,
+            crop : false,
+            scale: false,
+            gachalist : [],
+            gachalength : 0
+        })
     }
 
     cheatGacha(){
