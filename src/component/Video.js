@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import gachaResolve from '../data/gachaResolve.json'
+import gachaResolve from '../data/gachaResolve';
 
 const Fade = keyframes`
     from {
@@ -118,11 +118,6 @@ export default class Video extends Component {
             gachalist : [],
             gachalength : 0
         };
-        this.vidref = null;
-
-        this.startvid = element => {
-          this.vidref = element;
-        };
         this.randomGacha = this.randomGacha.bind(this);
         this.start = this.start.bind(this);
     }
@@ -130,7 +125,6 @@ export default class Video extends Component {
     start(){
         this.setState({ play: !this.state.play });
         this.setState({ vid: !this.state.vid });
-        if (this.vidref) this.vidref.play();
     }
 
     videoend() {
@@ -147,9 +141,10 @@ export default class Video extends Component {
             this.setState({ scale: !this.state.scale });
         }
         else if (!this.state.flip && !this.state.crop && this.state.scale){
-            if (this.state.gachalength <this.state.gachalist.length){
-                this.setState({gachalenght: this.state.gachalength + 1});
+            console.log(this.state.gachalist.length);
+            if (this.state.gachalength <this.state.gachalist.length-1){
                 setTimeout(() => {
+                    this.setState({ gachalength: this.state.gachalength +1 });
                     this.setState({ scale: !this.state.scale });
                     this.setState({ play: !this.state.play });
                     this.start();
@@ -165,9 +160,8 @@ export default class Video extends Component {
     }
 
     randomGacha(i){
-        this.setState({gachalist: i});
-        this.setState({gachalenght: 0});
-        console.log(gachaResolve[this.state.gachalist[this.state.gachalength]]);
+        this.setState({gachalist : i});
+        this.setState({gachalength: 0});
         this.start();
     }
 
@@ -183,9 +177,8 @@ export default class Video extends Component {
             )
         }else{
             return (
-            
                 <Viddiv>
-                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} ref={this.startvid}>
+                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'}>
                         <source src="./video/rainbow.mp4" type="video/mp4" />
                     </Gachavid>
                     <Fadeimg src="./img/gacha_fade.png" />

@@ -9,6 +9,42 @@ import myWorker from "../lib/recorderWorker.js"
 //let myWorker = require("../lib/recorderWorker.js");
 import gachaResolve from '../data/gachaResolve.json'
 
+var list = [
+    {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
+    {sentence:"เปิด สิบ", action: 'randomGacha'},
+    {sentence:"เปิด หา อาจารย์ เอกพล", action: 'randomGacha'},
+    {sentence:"เปิด หา อาจารย์ อรรถสิทธิ์", action: 'randomGacha'},
+    {sentence:"เปิด หา อาจารย์ อติวงศ์", action: 'randomGacha'},
+    {sentence:"เติม เงิน หนึ่ง บาท", action: 'addMoney', params: 1},
+    {sentence:"เติม เงิน สิบ บาท", action: 'addMoney', params: 10},
+    {sentence:"เติม เงิน ร้อย บาท", action: 'addMoney', params: 100},
+    {sentence:"เติม เงิน พัน บาท", action: 'addMoney', params: 1000},
+    {sentence:"เติม เพชร หนึ่ง", action: 'addToken', params: 1},
+    {sentence:"เติม เพชร สิบ", action: 'addToken', params: 10},
+    {sentence:"เติม เพชร ร้อย", action: 'addToken', params: 100},
+    {sentence:"เติม เพชร พัน", action: 'addToken', params: 1000},
+    {sentence:"แสดง คอลเลคชั่น", action: 'openCollection'},
+    {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
+    {sentence:"แสดง กาชา", action: 'closeCollection'},
+    {sentence:"โชว์ กาชา", action: 'closeCollection'}
+]
+
+var options = {
+    shouldSort: true,
+    tokenize: false,
+    includeScore: true,
+    threshold: 0.3,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 64,
+    minMatchCharLength: 1,
+    keys: [
+        "sentence"
+    ]
+};
+
+var commandSearch = new (require('fuse.js'))(list, options); // "list" is the item array
+
 export default class Start extends Component{
 
     constructor(props){
@@ -37,7 +73,27 @@ export default class Start extends Component{
     }
 
     handleCommand(text){
-        this.setState({command:text})
+        console.log("Searching "+text);
+        let cmd = commandSearch.search(text)[0];
+        if(cmd !== undefined) {
+            console.log("I think it is ",cmd);
+            if(cmd.score <= 0.2) {
+                console.log("I'm pretty sure");
+            }
+            else if(cmd.score <= 0.4) {
+                console.log("I'm not quite sure");
+            }
+            else {
+                console.log("I don't think it's correct ... I will ignore it");
+                return;
+            }
+            this.setState({command:cmd.item.action});
+            this[cmd.item.action](cmd.item.params);
+        }
+        else {
+            console.log("I can't even find a good match");
+            return;
+        }
     }
 
     openCollection(){
@@ -60,13 +116,11 @@ export default class Start extends Component{
         this.child.current.randomGacha([1,2])
     }
 
-
-
     render(){
         return(
             <div class="container">
                 <div>
-                    {/* <button onClick={this.test}>AAAAAA</button> */}
+                    <button onClick={this.randomGacha}>AAAAAA</button>
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
@@ -75,13 +129,17 @@ export default class Start extends Component{
                         <Money money={this.state.money}/>
                     </div>
                 </div>
-                 <div style={{position: 'static'}}>
-                    <Video ref={this.child}/>
-                </div>
-                <div style={{display:"flex"}} >
-                    <Collection gachaList={this.state.gachaList}/>
+                {this.state.collectPage == true ?
+                    
+                    <div style={{display:"flex"}} >
+                        <Collection gachaList={this.state.gachaList}/>
+                    </div> :
+                    <div style={{position: 'static'}}>
+                        <Video ref={this.child}/>
+                    </div>
+                }
+                
                        
-                </div>        
             </div>
         )
     }
