@@ -77,7 +77,7 @@ export default class Start extends Component{
         this.closeCollection = this.closeCollection.bind(this)
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
-        this.randomGacha = this.randomGacha.bind(this)
+        this.randomGachaWithNumber = this.randomGachaWithNumber.bind(this)
         this.cheatGacha = this.cheatGacha.bind(this)
     }
 
@@ -121,15 +121,27 @@ export default class Start extends Component{
         this.setState({token:this.state.token + addedToken})
     }
 
-    randomGacha(){
-        //console.log("เปิด")
-        this.child.current.start()
+    randomGachaWithNumber(number){
+        var gachaRateList = [75,435,510,585,660,735,810,885,960,1035,1110,1185,1545,1620,1695,1770,1845,1920,1980,2040,2100,2160,2220,2280,2296,2332,2348,2384,2400];
+        let resultList = [];
+        for(let i = 0; i < number; i++) {
+            var roll = Math.floor(Math.random()*2400);
+            for(let j = 0; j < gachaRateList.length ; j++){
+                if(gachaRateList[j] > roll){
+                    resultList.push(j);
+                    break;
+                }
+            }
+        }
+        console.log(resultList);
+        console.log(this.child.current);
+        this.child.current.randomGacha(resultList)
     }
 
     cheatProfessor(name){
         if(name === "ekapol"){
             const ekapol_list = [3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23]
-            for(var i in ekapol_list){
+            for(let i in ekapol_list){
                 console.log(i)
                 let tmp = this.state.gachaList
                 tmp[parseInt(ekapol_list[i]/4)][parseInt(ekapol_list[i]%4)] = 1
@@ -138,7 +150,7 @@ export default class Start extends Component{
             }
         }else if(name === "atiwong"){
             const atiwong_list = [0, 1, 2, 9, 10, 11, 18, 19, 20, 24, 25]
-            for(var i in atiwong_list){
+            for(let i in atiwong_list){
                 let tmp = this.state.gachaList
                 tmp[parseInt(atiwong_list[i]/4)][parseInt(atiwong_list[i]%4)] = 1
                 this.setState({gachaList:tmp})
@@ -168,7 +180,7 @@ export default class Start extends Component{
         return(
             <div class="container">
                 <div>
-                    <button onClick={this.randomGacha}>AAAAAA</button>
+                    <button onClick={()=>{this.randomGachaWithNumber(2)}}>AAAAAA</button>
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
