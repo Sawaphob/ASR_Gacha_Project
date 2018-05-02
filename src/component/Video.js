@@ -154,8 +154,8 @@ export default class Video extends Component {
         
     }
 
-    testAAA(){
-        console.log("Ronun")
+    testAAA(i){
+        console.log(i)
     }
 
 
