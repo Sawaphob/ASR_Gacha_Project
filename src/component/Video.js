@@ -120,6 +120,8 @@ export default class Video extends Component {
         this.startvid = element => {
           this.vidref = element;
         };
+
+        this.testAAA = this.testAAA.bind(this)
     }
 
     start(){
@@ -151,6 +153,12 @@ export default class Video extends Component {
         }
         
     }
+
+    testAAA(){
+        console.log("Ronun")
+    }
+
+
 
     render() {
         if (!this.state.play){

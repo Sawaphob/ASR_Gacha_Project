@@ -13,6 +13,7 @@ export default class Start extends Component{
 
     constructor(props){
         super(props)
+        this.child = React.createRef()
         this.state = {
             money: 1000,
             token: 1000,
@@ -27,12 +28,12 @@ export default class Start extends Component{
                         [0,0,0,0],
                         [1]]
         }
-        this.child = React.createRef()
         this.handleCommand = this.handleCommand.bind(this)
         this.openCollection = this.openCollection.bind(this)
         this.closeCollection = this.closeCollection.bind(this)
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
+        this.test = this.test.bind(this)
     }
 
     handleCommand(text){
@@ -55,12 +56,17 @@ export default class Start extends Component{
         this.setState({token:this.state.token + addedToken})
     }
 
+    test(){
+        this.child.current.testAAA()
+    }
+
 
 
     render(){
         return(
             <div class="container">
                 <div>
+                    <button onClick={this.test}>AAAAAA</button>
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
