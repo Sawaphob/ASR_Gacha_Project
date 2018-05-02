@@ -33,7 +33,7 @@ export default class Start extends Component{
         this.closeCollection = this.closeCollection.bind(this)
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
-        this.test = this.test.bind(this)
+        this.randomGacha = this.randomGacha.bind(this)
     }
 
     handleCommand(text){
@@ -56,8 +56,8 @@ export default class Start extends Component{
         this.setState({token:this.state.token + addedToken})
     }
 
-    test(){
-        this.child.current.testAAA([1,2])
+    randomGacha(){
+        this.child.current.randomGacha([1,2])
     }
 
 
@@ -66,7 +66,7 @@ export default class Start extends Component{
         return(
             <div class="container">
                 <div>
-                    <button onClick={this.test}>AAAAAA</button>
+                    {/* <button onClick={this.test}>AAAAAA</button> */}
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>

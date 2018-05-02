@@ -121,7 +121,7 @@ export default class Video extends Component {
           this.vidref = element;
         };
 
-        this.testAAA = this.testAAA.bind(this)
+        this.randomGacha = this.randomGacha.bind(this)
     }
 
     start(){
@@ -154,7 +154,7 @@ export default class Video extends Component {
         
     }
 
-    testAAA(i){
+    randomGacha(i){
         console.log(i)
     }
 
