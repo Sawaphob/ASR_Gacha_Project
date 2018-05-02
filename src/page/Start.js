@@ -14,9 +14,9 @@ const exchangeRate = {1: 35, 10: 200, 100: 1600, 1000: 13000}
 var list = [
     {sentence:"เปิด หนึ่ง", action: 'randomGachaWithNumber', params: 1},
     {sentence:"เปิด สิบ", action: 'randomGachaWithNumber', params: 10},
-    {sentence:"เปิด หา อาจารย์ เอกพล", action: 'randomGacha'},
-    {sentence:"เปิด หา อาจารย์ อรรถสิทธิ์", action: 'randomGacha'},
-    {sentence:"เปิด หา อาจารย์ อติวงศ์", action: 'randomGacha'},
+    {sentence:"เปิด หา อาจารย์ เอกพล", action: 'randomGachaSpecific', params: 'ekapol'},
+    {sentence:"เปิด หา อาจารย์ อรรถสิทธิ์", action: 'randomGachaSpecific', params: 'atthasit'},
+    {sentence:"เปิด หา อาจารย์ อติวงศ์", action: 'randomGachaSpecific', params: 'atiwong'},
     {sentence:"เติม เงิน หนึ่ง บาท", action: 'addMoney', params: 1},
     {sentence:"เติม เงิน สิบ บาท", action: 'addMoney', params: 10},
     {sentence:"เติม เงิน ร้อย บาท", action: 'addMoney', params: 100},
@@ -152,8 +152,9 @@ export default class Start extends Component{
         var ekapolCardList = [3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,27,28];
         var ekapolRateList =  [50,100,150,200,250,300,630,680,730,780,830,880,935,990,1045,1078,1100];
         if(card == "atiwong") {
+            this.setState({token:this.state.token - 3})
             var roll = Math.floor(Math.random()*600);
-            for(i=0; i<atiwongRateList.length; i++){
+            for(var i=0; i<atiwongRateList.length; i++){
                 if(atiwongRateList[i] > roll){
                     this.child.current.randomGacha([atiwongCardList[i]]);
                     break;
@@ -161,8 +162,9 @@ export default class Start extends Component{
             }
         }
         else if(card == "ekapol"){
+            this.setState({token:this.state.token - 3})
             var roll  = Math.floor(Math.random()*1100);
-            for(i=0; i<ekapolRateList.length; i++){
+            for(var i=0; i<ekapolRateList.length; i++){
                 if(ekapolRateList[i] > roll){
                     this.child.current.randomGacha([ekapolCardList[i]]);
                     break;
