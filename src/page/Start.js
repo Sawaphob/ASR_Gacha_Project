@@ -27,7 +27,7 @@ var list = [
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
     {sentence:"โชว์ กาชา", action: 'closeCollection'},
-    {sentence:"โกง คอลเลคชั่น", action: 'cheatCollection'},
+    {sentence:"โกง คอลเลคชั่น", action: 'cheatGacha'},
     {sentence:"โกง เอา อาจารย์ เอกพล", action: 'cheatProfessor', params: 'ekapol'},
     {sentence:"โกง เอา อาจารย์ อรรถสิทธิ์", action: 'cheatProfessor', params: 'athasit'},
     {sentence:"โกง เอา อาจารย์ อติวงศ์", action: 'cheatProfessor', params: 'atiwong'},
@@ -68,17 +68,17 @@ export default class Start extends Component{
         this.child = React.createRef()
         this.state = {
             money: 1000,
-            token: 1000,
+            token: 10,
             command: "",
             collectPage: false,
-            gachaList: [[1,1,1,1],
-                        [1,1,1,1],
-                        [1,1,1,0],
-                        [0,0,1,0],
+            gachaList: [[0,0,0,0],
                         [0,0,0,0],
                         [0,0,0,0],
                         [0,0,0,0],
-                        [1]]
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0]]
         }
         this.handleCommand = this.handleCommand.bind(this)
         this.openCollection = this.openCollection.bind(this)
