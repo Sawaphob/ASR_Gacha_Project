@@ -156,6 +156,7 @@ export default class Video extends Component {
 
     randomGacha(i){
         console.log(i)
+        //this.start();
     }
 
 
