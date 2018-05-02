@@ -86,7 +86,9 @@ export default class Start extends Component{
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
         this.randomGachaWithNumber = this.randomGachaWithNumber.bind(this)
-        this.cheatGacha = this.cheatGacha.bind(this)
+        this.cheatCollection = this.cheatCollection.bind(this)
+        this.cheatRarity = this.cheatRarity.bind(this)
+        this.cheatProfessor = this.cheatProfessor.bind(this)
         this.skipGacha = this.skipGacha.bind(this)
     }
 
@@ -108,7 +110,11 @@ export default class Start extends Component{
                 console.log("I don't think it's correct ... I will ignore it");
                 return;
             }
-            if(cmd.item.action == 'skipGacha' || !this.child.current.state.play)
+            if(
+                cmd.item.action === 'skipGacha'
+                || (this.state.collectPage && !cmd.item.action.startsWith('randomGacha'))
+                || (!this.state.collectPage && !this.child.current.state.play)
+            )
             {
                 this.setState({command:cmd.item.action});
                 this[cmd.item.action](cmd.item.params);
@@ -219,6 +225,17 @@ export default class Start extends Component{
         }
     }
 
+    cheatRarity(rarity) {
+        let tmp = this.state.gachaList
+        for(let i = 0; i <= 28; i++)
+        {
+            if(gachaResolve[i].rarity === rarity) {
+                tmp[parseInt(i/4)][i%4] = 1
+            }
+        }
+        this.setState({gachaList:tmp})
+    }
+
     skipGacha(){
         this.child.current.setState({
             play : false,
@@ -231,7 +248,7 @@ export default class Start extends Component{
         })
     }
 
-    cheatGacha(){
+    cheatCollection(){
         this.setState({gachaList:  [[1,1,1,1],
                                     [1,1,1,1],
                                     [1,1,1,1],
