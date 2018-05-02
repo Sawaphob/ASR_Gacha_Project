@@ -62,7 +62,7 @@ export default class Start extends Component{
             money: 1000,
             token: 1000,
             command: "",
-            collectPage: true,
+            collectPage: false,
             gachaList: [[1,1,1,1],
                         [1,1,1,1],
                         [1,1,1,0],
@@ -122,6 +122,7 @@ export default class Start extends Component{
     }
 
     randomGacha(){
+        //console.log("เปิด")
         this.child.current.start()
     }
 
@@ -162,11 +163,12 @@ export default class Start extends Component{
                                     [1]]})
     }
 
+
     render(){
         return(
             <div class="container">
                 <div>
-                    {/* <button onClick={()=>{this.cheatProfessor("atiwong")}}>AAAAAA</button> */}
+                    <button onClick={this.randomGacha}>AAAAAA</button>
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
