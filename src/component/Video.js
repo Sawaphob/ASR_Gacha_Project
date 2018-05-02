@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import styled, { keyframes } from 'styled-components'
+import React, { Component } from 'react';
+import styled, { keyframes } from 'styled-components';
+import gachaResolve from '../data/gachaResolve';
 
 const Fade = keyframes`
     from {
         opacity: 1;
       }
-    
+
       to {
         opacity: 0;
       }
@@ -113,21 +114,17 @@ export default class Video extends Component {
             vid: false,
             flip: false,
             crop : false,
-            scale: false
+            scale: false,
+            gachalist : [],
+            gachalength : 0
         };
-        this.vidref = null;
-
-        this.startvid = element => {
-          this.vidref = element;
-        };
-
-        this.randomGacha = this.randomGacha.bind(this)
+        this.randomGacha = this.randomGacha.bind(this);
+        this.start = this.start.bind(this);
     }
 
     start(){
         this.setState({ play: !this.state.play });
         this.setState({ vid: !this.state.vid });
-        if (this.vidref) this.vidref.play();
     }
 
     videoend() {
@@ -144,22 +141,29 @@ export default class Video extends Component {
             this.setState({ scale: !this.state.scale });
         }
         else if (!this.state.flip && !this.state.crop && this.state.scale){
-            console.log("set time out")
-            setTimeout(() => {
-                this.setState({ scale: !this.state.scale });
-                this.setState({ play: !this.state.play });
-            }, 2000);
-            
+            console.log(this.state.gachalist.length);
+            if (this.state.gachalength <this.state.gachalist.length-1){
+                setTimeout(() => {
+                    this.setState({ gachalength: this.state.gachalength +1 /*>= this.state.gachalist.length ? this.state.gachalength-1 : this.state.gachalength+1*/});
+                    this.setState({ scale: !this.state.scale });
+                    this.setState({ play: !this.state.play });
+                    this.start();
+                }, 2000);
+            }else{
+                console.log("set time out")
+                setTimeout(() => {
+                    this.setState({ scale: !this.state.scale });
+                    this.setState({ play: !this.state.play });
+                }, 2000);
+            }
         }
-        
     }
 
     randomGacha(i){
-        console.log(i)
-        //this.start();
+        this.setState({gachalist : i});
+        this.setState({gachalength: 0});
+        this.start();
     }
-
-
 
     render() {
         if (!this.state.play){
@@ -173,14 +177,13 @@ export default class Video extends Component {
             )
         }else{
             return (
-            
                 <Viddiv>
-                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} ref={this.startvid}>
+                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} id="vidRef">
                         <source src="./video/rainbow.mp4" type="video/mp4" />
                     </Gachavid>
                     <Fadeimg src="./img/gacha_fade.png" />
                     <Gachaimg src="./img/gacha.png" />
-                    <Cardimg src="./img/ekapol1_n.jpg" flip={this.state.flip} scale={this.state.scale} visibility={this.state.vid ? 'hidden' : 'visible'}/>
+                    <Cardimg src={"./img/" + gachaResolve[this.state.gachalist[this.state.gachalength]].filename} flip={this.state.flip} scale={this.state.scale} visibility={this.state.vid ? 'hidden' : 'visible'}/>
                     <Crop onAnimationEnd={this.startscale.bind(this)}>
                         <Cardimg src="./img/cardback.jpg"  flip={this.state.flip} scale={this.state.scale} visibility={this.state.vid ? 'hidden': 'visible'}/>
                     </Crop>
