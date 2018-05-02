@@ -1,50 +1,58 @@
 import React, { Component } from 'react';
-import {FormControl,InputGroup,Button} from 'react-bootstrap'
+import {FormControl,InputGroup,Button,Row,Col} from 'react-bootstrap'
+import $ from 'jquery'
 import Dictate from  '../lib/dictate.js'
 
 export default class Microphone extends Component {
     constructor(props){
         super(props)
         this.state = {
-            recording:false
+            recording:false,
+            serverStatus:"NOT_READY",
+            window:{},
+            transcription:null,
+            dictate:null,
+            onlineMode:false
         }
     }
     
     componentDidMount () {
-        console.log("Hello world from microphone");
         
-        this.state.window = {};
         Dictate(this.state.window);
         
         var transcription = new this.state.window.Transcription();
         this.state.transcription = transcription;
         
         var worker = this.props.worker;
-        console.log("WORKER",worker);
+        
         var dictate = new this.state.window.Dictate({
             server : "ws://192.168.38.10:8080/client/ws/speech",
             serverStatus : "ws://192.168.38.10:8080/client/ws/status",
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
                 console.log("READY FOR SPEECH");
-            },
+                this.setState({serverStatus:"RECORDING"});
+                this.setState({recording:true});
+            }.bind(this),
             onEndOfSpeech : function() {
                 console.log("END FOR SPEECH");
-            },
+            }.bind(this),
             onEndOfSession : function() {
                 console.log("END OF SESSION");
-            },
+                this.setState({serverStatus:"SESSION_END"});
+                this.setState({recording:false});
+            }.bind(this),
             onServerStatus : function(json) {
-                //__serverStatus(json.num_workers_available + ':' + json.num_requests_processed);
                 //console.log(json.num_workers_available + ':' + json.num_requests_processed)
-                /*if (json.num_workers_available == 0) {
-                    $("#buttonStart").prop("disabled", true);
-                    $("#serverStatusBar").addClass("highlight");
+                if (json.num_workers_available == 0) {
+                    if(!this.state.recording)
+                        this.setState({serverStatus:"NO_WORKER"});
                 } else {
-                    $("#buttonStart").prop("disabled", false);
-                    $("#serverStatusBar").removeClass("highlight");
-                }*/
-            },
+                    this.setState({serverStatus:"AVAILABLE"});
+                    
+                    if(this.state.onlineMode) this.startRecord(); // If online mode then immediately start record
+                }
+            }.bind(this),
             onPartialResults : function(hypos) {
                 // TODO: demo the case where there are more hypos
                 transcription.add(hypos[0].transcript, false);
@@ -55,6 +63,7 @@ export default class Microphone extends Component {
                 }
                 else {
                     this.setState({transcript: ""});
+                    dictate.sendEOS();
                 }
                 
                 //__updateTranscript(tt.toString());
@@ -69,10 +78,12 @@ export default class Microphone extends Component {
                 let transcript = transcription.toString();
                 if(transcript.indexOf("โกวาจี") != -1) {
                     // valid command
-                    let cmd = transcript.substr(transcript.indexOf("โกวาจี"));
+                    let cmd = transcript.substr(transcript.indexOf("โกวาจี")+7);
+                    cmd = cmd.replace(' .','');
                     this.setState({transcript: cmd});
-                    this.props.handleCommand(cmd);
                     console.log("CMD",cmd);
+                    this.props.handleCommand(cmd);
+                    
                 }
                 else {
                     this.setState({transcript: ""});
@@ -87,45 +98,58 @@ export default class Microphone extends Component {
                 }*/
             }.bind(this),
             onError : function(code, data) {
-                //__error(code, data);
-                //__status("Viga: " + code);
                 console.log(code,data);
                 dictate.cancel();
-            },
+            }.bind(this),
             onEvent : function(code, data) {
                 //console.log(code,data);
-                //__message(code, data);
-            }
+            }.bind(this)
         });
         this.state.dictate = dictate;
         this.state.dictate.init();
     }
     
     startRecord() {
+        console.log("Start record");
         this.state.transcription.clear();
         this.state.dictate.startListening();
         
-        this.setState({recording:true});
+        //this.setState({recording:true});
     }
     
     stopRecord() {
         this.state.dictate.stopListening();
-        this.setState({recording:false});
+        //this.setState({recording:false});
+    }
+    
+    onlineBtnPressed() {
+        let newMode = !this.state.onlineMode;
+        this.setState({onlineMode:newMode});
+        if(newMode && this.state.serverStatus == "AVAILABLE") {
+            // reconnect
+            this.startRecord();
+        }
     }
     
     render(){
         return(
-            <div class="input-group my-3">
-                <FormControl
-                    type="text"
-                    value={this.state.transcript}
-                    placeholder="Enter text"
-                />
-                <div class="input-group-append">
-                    <Button onClick={this.state.recording?this.stopRecord.bind(this):this.startRecord.bind(this)} >
-                        {this.state.recording?'Stop':'Start'}
-                    </Button>
+            <div className="h-100 d-flex align-items-center">
+                <div className="input-group my-3 flex-grow-1 mx-2">
+                    <FormControl
+                        type="text"
+                        value={this.state.transcript}
+                        placeholder="Enter text"
+                    />
+                    <div className="input-group-append">
+                        <Button id="recordBtn" onClick={this.state.recording?this.stopRecord.bind(this):this.startRecord.bind(this)} >
+                            {this.state.recording?'Stop':'Start'}
+                        </Button>
+                    </div>
                 </div>
+                <Button id="onlineBtn" className="mx-2" onClick={this.onlineBtnPressed.bind(this)} >
+                    {this.state.onlineMode?'End online':'Begin online'}
+                </Button>
+                <div className="mx-2" >STATUS: {this.state.serverStatus}</div>
             </div>
         )
     }

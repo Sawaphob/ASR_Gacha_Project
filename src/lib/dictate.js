@@ -204,6 +204,10 @@ export default function(window){
 				error: errorCallback,
 			});
 		}
+        
+        this.sendEOS = () => {
+            //socketSend('EOS');
+        }
 
 		// Private methods
 		function startUserMedia(stream) {
