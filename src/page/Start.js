@@ -5,8 +5,10 @@ import Collection from '../component/Collection'
 import Video from '../component/Video'
 import Microphone from '../component/Microphone'
 import myWorker from "../lib/recorderWorker.js"
+import styled, { keyframes } from 'styled-components'
 //let myWorker = require("../lib/recorderWorker.js");
 import gachaResolve from '../data/gachaResolve.json'
+
 
 var list = [
     {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
@@ -43,6 +45,13 @@ var options = {
 };
 
 var commandSearch = new (require('fuse.js'))(list, options); // "list" is the item array
+
+const UserUI = styled.div`
+    display : flex;
+    justify-content : center;
+    border : solid 2px black;
+    border-radius : 10px;
+` 
 
 export default class Start extends Component{
 
@@ -135,10 +144,9 @@ export default class Start extends Component{
                     <div>
                         <Microphone worker={myWorker} handleCommand={this.handleCommand} />
                     </div>
-                    <div style={{display:"flex", justifyContent: 'center'}}>
-                        <Token token={this.state.token}/>
-                        <Money money={this.state.money}/>
-                    </div>
+                    <UserUI>
+                        <Token token={this.state.token}/><div style={{width:"200px"}}/><Money money={this.state.money}/>
+                    </UserUI>
                 </div>
                 <br />
                 {
