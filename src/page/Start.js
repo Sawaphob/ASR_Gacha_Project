@@ -9,6 +9,7 @@ import styled, { keyframes } from 'styled-components'
 //let myWorker = require("../lib/recorderWorker.js");
 import gachaResolve from '../data/gachaResolve.json'
 
+const exchangeRate = {1: 35, 10: 200, 100: 1600, 1000: 13000}
 
 var list = [
     {sentence:"เปิด หนึ่ง", action: 'randomGacha'},
@@ -118,7 +119,7 @@ export default class Start extends Component{
     }
 
     addToken(addedToken){
-        this.setState({token:this.state.token + addedToken})
+        this.setState({token:this.state.token + addedToken, money: this.state.money - exchangeRate[addedToken]})
     }
 
     randomGacha(){
