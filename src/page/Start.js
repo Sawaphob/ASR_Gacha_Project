@@ -27,7 +27,7 @@ var list = [
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
     {sentence:"โชว์ กาชา", action: 'closeCollection'},
-    {sentence:"โกง คอลเลคชั่น", action: 'cheatCollection'},
+    {sentence:"โกง คอลเลคชั่น", action: 'cheatGacha'},
     {sentence:"โกง เอา อาจารย์ เอกพล", action: 'cheatProfessor', params: 'ekapol'},
     {sentence:"โกง เอา อาจารย์ อรรถสิทธิ์", action: 'cheatProfessor', params: 'athasit'},
     {sentence:"โกง เอา อาจารย์ อติวงศ์", action: 'cheatProfessor', params: 'atiwong'},
@@ -68,17 +68,17 @@ export default class Start extends Component{
         this.child = React.createRef()
         this.state = {
             money: 1000,
-            token: 1000,
+            token: 10,
             command: "",
             collectPage: false,
-            gachaList: [[1,1,1,1],
-                        [1,1,1,1],
-                        [1,1,1,0],
-                        [0,0,1,0],
+            gachaList: [[0,0,0,0],
                         [0,0,0,0],
                         [0,0,0,0],
                         [0,0,0,0],
-                        [1]]
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0]]
         }
         this.handleCommand = this.handleCommand.bind(this)
         this.openCollection = this.openCollection.bind(this)
@@ -154,6 +154,9 @@ export default class Start extends Component{
             var roll = Math.floor(Math.random()*2400);
             for(let j = 0; j < gachaRateList.length ; j++){
                 if(gachaRateList[j] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(j/4)][parseInt(j%4)] = 1
+                    this.setState({gachaList:tmp})
                     resultList.push(j);
                     break;
                 }
@@ -182,6 +185,9 @@ export default class Start extends Component{
             var roll = Math.floor(Math.random()*600);
             for(var i=0; i<atiwongRateList.length; i++){
                 if(atiwongRateList[i] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(atiwongCardList[i]/4)][parseInt(atiwongCardList[i]%4)] = 1
+                    this.setState({gachaList:tmp})
                     this.child.current.randomGacha([atiwongCardList[i]]);
                     break;
                 }
@@ -192,6 +198,9 @@ export default class Start extends Component{
             var roll  = Math.floor(Math.random()*1100);
             for(var i=0; i<ekapolRateList.length; i++){
                 if(ekapolRateList[i] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(ekapolCardList[i]/4)][parseInt(ekapolCardList[i]%4)] = 1
+                    this.setState({gachaList:tmp})
                     this.child.current.randomGacha([ekapolCardList[i]]);
                     break;
                 }
