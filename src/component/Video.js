@@ -83,7 +83,7 @@ const Cardimg = styled.img`
     ${
         (props) =>{
             if(props.flip){
-                return `animation: ${Flip} 1.25s linear 2;`
+                return `animation: ${Flip} 1.5s linear;`
             }else if (props.scale){
                 return `animation: ${Scale} 1s 1s;`
             }else{
@@ -95,7 +95,7 @@ const Cardimg = styled.img`
 
 const Crop = styled.div`
     position: absolute;
-    top:194px;
+    top:238px;
     left:auto;
     height: 520px;
     width: 370px;
@@ -116,15 +116,41 @@ export default class Video extends Component {
             crop : false,
             scale: false,
             gachalist : [],
-            gachalength : 0
+            gachalength : 0,
+            video : "./video/normal.mp4"
         };
         this.randomGacha = this.randomGacha.bind(this);
         this.start = this.start.bind(this);
+        this.randomvideo = this.randomvideo.bind(this);
+    }
+
+    randomvideo(){
+        let randomnumber = Math.floor(Math.random()*10) + 1;
+        console.log(randomnumber);
+        if (gachaResolve[this.state.gachalist[this.state.gachalength]].rarity === "R"){
+            this.setState({video:"./video/normal.mp4" }) ;
+        }else if (gachaResolve[this.state.gachalist[this.state.gachalength]].rarity ==="SR"){
+            if (randomnumber>4){
+                this.setState({video:"./video/gold.mp4" }) ;
+            }else{
+                this.setState({video:"./video/normal.mp4" }) ;
+            }
+        }else{
+            if (randomnumber > 6){
+                this.setState({video:"./video/rainbow.mp4" }) ;
+            }
+            else if (randomnumber>3){
+                this.setState({video:"./video/gold.mp4" }) ;
+            }else{
+                this.setState({video:"./video/normal.mp4" }) ;
+            }
+        }
     }
 
     start(){
         this.setState({ play: !this.state.play });
         this.setState({ vid: !this.state.vid });
+        this.randomvideo();
     }
 
     videoend() {
@@ -141,10 +167,9 @@ export default class Video extends Component {
             this.setState({ scale: !this.state.scale });
         }
         else if (!this.state.flip && !this.state.crop && this.state.scale){
-            console.log(this.state.gachalist.length);
             if (this.state.gachalength <this.state.gachalist.length-1){
                 setTimeout(() => {
-                    this.setState({ gachalength: this.state.gachalength +1 /*>= this.state.gachalist.length ? this.state.gachalength-1 : this.state.gachalength+1*/});
+                    this.setState({ gachalength: this.state.gachalength +1 });
                     this.setState({ scale: !this.state.scale });
                     this.setState({ play: !this.state.play });
                     this.start();
@@ -179,7 +204,7 @@ export default class Video extends Component {
             return (
                 <Viddiv>
                     <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} id="vidRef">
-                        <source src="./video/rainbow.mp4" type="video/mp4" />
+                        <source src={this.state.video} type="video/mp4" />
                     </Gachavid>
                     <Fadeimg src="./img/gacha_fade.png" />
                     <Gachaimg src="./img/gacha.png" />
