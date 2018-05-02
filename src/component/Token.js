@@ -8,7 +8,7 @@ export default class Token extends Component {
     render(){
         return(
             <div>
-                เพชรจ้าาาาาา {this.props.token}
+                {this.props.token} <img src="./saintquartz.png" width="40px"/>
             </div>
         )
     }

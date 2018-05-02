@@ -144,7 +144,7 @@ export default class Video extends Component {
             console.log(this.state.gachalist.length);
             if (this.state.gachalength <this.state.gachalist.length-1){
                 setTimeout(() => {
-                    this.setState({ gachalength: this.state.gachalength +1 });
+                    this.setState({ gachalength: this.state.gachalength +1 /*>= this.state.gachalist.length ? this.state.gachalength-1 : this.state.gachalength+1*/});
                     this.setState({ scale: !this.state.scale });
                     this.setState({ play: !this.state.play });
                     this.start();
@@ -178,7 +178,7 @@ export default class Video extends Component {
         }else{
             return (
                 <Viddiv>
-                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'}>
+                    <Gachavid autoPlay muted onEnded={this.videoend.bind(this)} visibility={this.state.vid ? 'visible' : 'hidden'} id="vidRef">
                         <source src="./video/rainbow.mp4" type="video/mp4" />
                     </Gachavid>
                     <Fadeimg src="./img/gacha_fade.png" />

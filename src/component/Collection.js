@@ -25,13 +25,14 @@ export default class Collection extends Component {
         return(
             <CollectionBox>
                 {this.props.gachaList.map((item1, index1) => (
-                    <Row>
+                    <Row style={{padding:"10px"}}>
                         {item1.map((item2, index2) =>(
                             <Col sm={3}>
                                 {item2 == 1? <img src={"./img/"+gachaResolve[index1*4+index2].filename} className="img-fluid"/>:<img src="./img/questionMask.png" className="img-fluid"/>}
                             </Col>
                         ))}
                     </Row>
+                    
                 ))}
             </CollectionBox>
         )
