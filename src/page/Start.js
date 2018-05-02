@@ -148,6 +148,9 @@ export default class Start extends Component{
             var roll = Math.floor(Math.random()*2400);
             for(let j = 0; j < gachaRateList.length ; j++){
                 if(gachaRateList[j] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(gachaResolve[j]/4)][parseInt(gachaResolve[j]%4)] = 1
+                    this.setState({gachaList:tmp})
                     resultList.push(j);
                     break;
                 }
@@ -176,6 +179,9 @@ export default class Start extends Component{
             var roll = Math.floor(Math.random()*600);
             for(var i=0; i<atiwongRateList.length; i++){
                 if(atiwongRateList[i] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(atiwongCardList[i]/4)][parseInt(atiwongCardList[i]%4)] = 1
+                    this.setState({gachaList:tmp})
                     this.child.current.randomGacha([atiwongCardList[i]]);
                     break;
                 }
@@ -186,6 +192,9 @@ export default class Start extends Component{
             var roll  = Math.floor(Math.random()*1100);
             for(var i=0; i<ekapolRateList.length; i++){
                 if(ekapolRateList[i] > roll){
+                    let tmp = this.state.gachaList
+                    tmp[parseInt(ekapolCardList[i]/4)][parseInt(ekapolCardList[i]%4)] = 1
+                    this.setState({gachaList:tmp})
                     this.child.current.randomGacha([ekapolCardList[i]]);
                     break;
                 }
