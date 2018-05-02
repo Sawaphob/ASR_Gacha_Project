@@ -57,7 +57,7 @@ export default class Start extends Component{
     }
 
     test(){
-        this.child.current.testAAA()
+        this.child.current.testAAA([1,2])
     }
 
 
