@@ -60,8 +60,6 @@ export default class Start extends Component{
         this.child.current.randomGacha([1,2])
     }
 
-
-
     render(){
         return(
             <div class="container">
@@ -75,13 +73,17 @@ export default class Start extends Component{
                         <Money money={this.state.money}/>
                     </div>
                 </div>
-                 <div style={{position: 'static'}}>
-                    <Video ref={this.child}/>
-                </div>
-                <div style={{display:"flex"}} >
-                    <Collection gachaList={this.state.gachaList}/>
+                {this.state.collectPage == true ?
+                    
+                    <div style={{display:"flex"}} >
+                        <Collection gachaList={this.state.gachaList}/>
+                    </div> :
+                    <div style={{position: 'static'}}>
+                        <Video ref={this.child}/>
+                    </div>
+                }
+                
                        
-                </div>        
             </div>
         )
     }
