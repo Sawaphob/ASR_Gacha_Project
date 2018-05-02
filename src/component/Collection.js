@@ -28,7 +28,7 @@ export default class Collection extends Component {
                     <Row>
                         {item1.map((item2, index2) =>(
                             <Col sm={3}>
-                                {item2 == 1? <img src={"./img/"+gachaResolve[index1*4+index2]} className="img-fluid"/>:<img src="./img/questionMask.png" className="img-fluid"/>}
+                                {item2 == 1? <img src={"./img/"+gachaResolve[index1*4+index2].filename} className="img-fluid"/>:<img src="./img/questionMask.png" className="img-fluid"/>}
                             </Col>
                         ))}
                     </Row>
