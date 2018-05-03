@@ -66,7 +66,7 @@ export default function(window){
 		// Initialized by init()
 		var audioContext;
 		var recorder;
-        var window = {};
+        var window = cfg.window;
 		// Initialized by startListening()
 		var ws;
 		var intervalKey;
@@ -83,10 +83,12 @@ export default function(window){
 		// Can be called multiple times.
 		// TODO: call something on success (MSG_INIT_RECORDER is currently called)
 		this.init = function() {
-            
+            console.log("INIT");
+            if(window.Recorder === undefined)
             Recorder(window);
             
 			var audioSourceConstraints = {};
+            console.log("WAITING MIC")
 			config.onEvent(MSG_WAITING_MICROPHONE, "Waiting for approval to access your microphone ...");
 			try {
 				window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -98,7 +100,6 @@ export default function(window){
 				// Set media.webaudio.enabled = true (in about:config) to fix this.
 				config.onError(ERR_CLIENT, "Error initializing Web Audio browser: " + e);
 			}
-
 			if (navigator.getUserMedia) {
 				if(config.audioSourceId) {
 					audioSourceConstraints.audio = {
@@ -215,15 +216,18 @@ export default function(window){
 			config.onEvent(MSG_MEDIA_STREAM_CREATED, 'Media stream created');
                         //Firefox loses the audio input stream every five seconds
                         // To fix added the input to window.source
+                        if(window.source === undefined)
                         window.source = input;
                         
-			// make the analyser available in window context
-			window.userSpeechAnalyser = audioContext.createAnalyser();
+			// make the analyser available in window context'
+            //if(window.userSpeechAnalyser === undefined)
+            window.userSpeechAnalyser = audioContext.createAnalyser();
 			input.connect(window.userSpeechAnalyser);
 
 			config.rafCallback();
             
 			recorder = new window.Recorder(input, { workerPath : config.recorderWorkerPath });
+            console.log("Recorder init",recorder);
 			config.onEvent(MSG_INIT_RECORDER, 'Recorder initialized');
 		}
 
