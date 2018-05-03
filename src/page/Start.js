@@ -36,7 +36,7 @@ var list = [
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
     {sentence:"โชว์ กาชา", action: 'closeCollection'},
-    {sentence:"โกง คอลเลคชั่น", action: 'cheatGacha'},
+    {sentence:"โกง คอลเลคชั่น", action: 'cheatCollection'},
     {sentence:"โกง เอา อาจารย์ เอกพล", action: 'cheatProfessor', params: 'ekapol'},
     {sentence:"โกง เอา อาจารย์ อรรถสิทธิ์", action: 'cheatProfessor', params: 'athasit'},
     {sentence:"โกง เอา อาจารย์ อติวงศ์", action: 'cheatProfessor', params: 'atiwong'},
