@@ -95,7 +95,7 @@ export default class Start extends Component{
         this.addMoney = this.addMoney.bind(this)
         this.addToken = this.addToken.bind(this)
         this.randomGachaWithNumber = this.randomGachaWithNumber.bind(this)
-        this.cheatCollection = this.cheatCollection.bind(this)
+        this.cheatGacha = this.cheatGacha.bind(this)
         this.cheatRarity = this.cheatRarity.bind(this)
         this.cheatProfessor = this.cheatProfessor.bind(this)
         this.skipGacha = this.skipGacha.bind(this)
@@ -265,7 +265,7 @@ export default class Start extends Component{
         })
     }
 
-    cheatCollection(){
+    cheatGacha(){
         this.setState({gachaList:  [[1,1,1,1],
                                     [1,1,1,1],
                                     [1,1,1,1],
