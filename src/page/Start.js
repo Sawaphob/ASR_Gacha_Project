@@ -36,7 +36,7 @@ var list = [
     {sentence:"โชว์ คอลเลคชั่น", action: 'openCollection'},
     {sentence:"แสดง กาชา", action: 'closeCollection'},
     {sentence:"โชว์ กาชา", action: 'closeCollection'},
-    {sentence:"โกง คอลเลคชั่น", action: 'cheatCollection'},
+    {sentence:"โกง คอลเลคชั่น", action: 'cheatGacha'},
     {sentence:"โกง เอา อาจารย์ เอกพล", action: 'cheatProfessor', params: 'ekapol'},
     {sentence:"โกง เอา อาจารย์ อรรถสิทธิ์", action: 'cheatProfessor', params: 'athasit'},
     {sentence:"โกง เอา อาจารย์ อติวงศ์", action: 'cheatProfessor', params: 'atiwong'},
@@ -218,7 +218,7 @@ export default class Start extends Component{
 
     cheatProfessor(name){
         if(name === "ekapol"){
-            const ekapol_list = [3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23]
+            const ekapol_list = [3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23, 27, 28]
             for(let i in ekapol_list){
                 console.log(i)
                 let tmp = this.state.gachaList
@@ -227,7 +227,7 @@ export default class Start extends Component{
     
             }
         }else if(name === "atiwong"){
-            const atiwong_list = [0, 1, 2, 9, 10, 11, 18, 19, 20, 24, 25]
+            const atiwong_list = [0, 1, 2, 9, 10, 11, 18, 19, 20, 24, 25, 28]
             for(let i in atiwong_list){
                 let tmp = this.state.gachaList
                 tmp[parseInt(atiwong_list[i]/4)][parseInt(atiwong_list[i]%4)] = 1
@@ -236,7 +236,7 @@ export default class Start extends Component{
             }
         }else if(name === "athasit"){
             let tmp = this.state.gachaList
-            tmp[26/4][26%4] = 1
+            tmp[parseInt(26/4)][26%4] = 1
             this.setState({gachaList:tmp})
 
         }

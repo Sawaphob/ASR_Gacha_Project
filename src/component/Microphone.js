@@ -31,8 +31,8 @@ export default class Microphone extends Component {
         var worker = this.props.worker;
         
         var dictate = new this.state.window.Dictate({
-            server : "ws://192.168.38.10:8080/client/ws/speech",
-            serverStatus : "ws://192.168.38.10:8080/client/ws/status",
+            server : "ws://localhost:8080/client/ws/speech",
+            serverStatus : "ws://localhost:8080/client/ws/status",
             window: this.state.window,
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
@@ -131,8 +131,8 @@ export default class Microphone extends Component {
         
         
         var gowajeeDetector = new this.state.window.Dictate({
-            server : "ws://192.168.38.10:8081/client/ws/speech",
-            serverStatus : "ws://192.168.38.10:8081/client/ws/status",
+            server : "ws://localhost:8081/client/ws/speech",
+            serverStatus : "ws://localhost:8081/client/ws/status",
             window: this.state.window,
             recorderWorkerPath : worker,
             onReadyForSpeech : function() {
