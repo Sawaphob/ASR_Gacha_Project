@@ -46,7 +46,7 @@ Notes
 ---
 - In wakeword mode, after saying `โกวาจี`, wait until the status of the normal server changed to `RECORDING` before saying the command (This can take short or long time depend on the connection and the wakeword detector performance).
 - If the server is in wakeword mode for a long time, there might be some problem with the wakeword detection. Refreshing the web page should help.
-- We tried to fix most bugs but there might still be some left. Please do not try to break the application (T\_T). Most bug can be resolved by refreshing the web page or restarting the GStreamer servers.
+- We tried to fix most bugs but there might still be some left. Please do not try to break the application (T\_T). Most bugs can be resolved by refreshing the web page or restarting the GStreamer servers.
 - Cost for gacha 1 time is 3 gems (or saint quartz or whatever you might call). 10 times cost 30 gems (no discount). If there is not enough gem, you can't pull the gacha (Error is not shown in the application but it is shown in the console log).
-- Gems are quite expensive (I can't remember the cost). Money can be less than 0 (This is intended behavior as it shows that you are in dept to somebody).
+- Gems are quite expensive (I can't remember the cost). Money can be less than 0 (This is intended behavior as it shows that you are in debt to somebody).
 - There are so many debug messages in the console log. You can look there if you want (but even the developers can't remember what most of them are).
