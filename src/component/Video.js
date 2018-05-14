@@ -127,6 +127,7 @@ export default class Video extends Component {
     randomvideo(){
         let randomnumber = Math.floor(Math.random()*10) + 1;
         console.log(randomnumber);
+        console.log(gachaResolve[this.state.gachalist[this.state.gachalength]],this.state.gachalist,this.state.gachalength);
         if (gachaResolve[this.state.gachalist[this.state.gachalength]].rarity === "R"){
             this.setState({video:"./video/normal.mp4" }) ;
         }else if (gachaResolve[this.state.gachalist[this.state.gachalength]].rarity ==="SR"){
@@ -185,6 +186,8 @@ export default class Video extends Component {
     }
 
     randomGacha(i){
+        this.state.gachalist = i;
+        this.state.gachalength = 0;
         this.setState({gachalist : i});
         this.setState({gachalength: 0});
         this.start();
@@ -194,7 +197,7 @@ export default class Video extends Component {
         if (!this.state.play){
             return(
                 <div>
-                    <button onClick={this.start.bind(this)}> click me! </button>
+                    {/*<button onClick={this.start.bind(this)}> click me! </button>*/}
                 <Viddiv>
                     <Gachaimg src="./img/banner.png"/>
                 </Viddiv>

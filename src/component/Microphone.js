@@ -230,6 +230,7 @@ export default class Microphone extends Component {
     
     startRecord() {
         console.log("Start record");
+        //this.props.handleCommand(prompt("CMD"));
         this.state.transcription.clear();
         this.state.dictate.startListening();
         
